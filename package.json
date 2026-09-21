@@ -8,12 +8,13 @@
     "check": "tsc --noEmit",
     "build": "tsc",
     "smoke": "node dist/examples/system-one-smoke/minimal.js",
-    "test": "npm run build && node --test dist/tests/daily-run-v0.1.test.js dist/tests/four-pillars-consensus.test.js dist/tests/nine-star-ki.test.js dist/tests/three-method-consensus.test.js dist/tests/sukuyo.test.js dist/tests/four-method-consensus.test.js",
+    "test": "npm run build && node --test dist/tests/daily-run-v0.1.test.js dist/tests/four-pillars-consensus.test.js dist/tests/nine-star-ki.test.js dist/tests/three-method-consensus.test.js dist/tests/sukuyo.test.js dist/tests/four-method-consensus.test.js dist/tests/western-enrichment.test.js",
     "daily:western": "npm run build && node dist/src/run-western-astrology.js",
     "daily:compare": "npm run build && node dist/src/run-two-method-comparison.js",
     "daily:compare:three": "npm run build && node dist/src/run-three-method-comparison.js",
     "daily:sukuyo": "npm run build && node dist/src/run-sukuyo.js",
-    "daily:compare:four": "npm run build && node dist/src/run-four-method-comparison.js"
+    "daily:compare:four": "npm run build && node dist/src/run-four-method-comparison.js",
+    "daily:western:enrichment": "npm run build && node dist/src/run-western-enrichment.js"
   },
   "engines": {
     "node": ">=20"

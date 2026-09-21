@@ -120,6 +120,17 @@ $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:compare:four
 ```
 
+Run the Western Astrology input-quality experiment against an existing private baseline artifact:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+$env:DAILY_RUN_BASELINE_PATH = 'D:\AI-Work\JevLab-Data\runs\2026-09-21\daily-v0.1-four-method-fictional-<timestamp>.json'
+npm run daily:western:enrichment
+```
+
+The experiment keeps the original Western fixture unchanged, normalizes a separate enriched fictional chart, and stores the per-domain coverage, confidence, and token-usage comparison outside the repository.
+
 The runner refuses an output root located inside the repository and requires an explicit execution timezone. Runtime directories are keyed by the execution date in that timezone, while `targetDate` remains the date being evaluated. The full contract is documented in [`docs/daily-run-v0.1.md`](docs/daily-run-v0.1.md).
 
 ## License
