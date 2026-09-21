@@ -7,7 +7,9 @@
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc",
-    "smoke": "node dist/examples/system-one-smoke/minimal.js"
+    "smoke": "node dist/examples/system-one-smoke/minimal.js",
+    "test": "npm run build && node --test dist/tests/daily-run-v0.1.test.js",
+    "daily:western": "npm run build && node dist/src/run-western-astrology.js"
   },
   "engines": {
     "node": ">=20"
@@ -16,6 +18,7 @@
     "@typesafe-ai/sdk": "0.6.0"
   },
   "devDependencies": {
+    "@types/node": "22.20.4",
     "typescript": "7.0.2"
   }
 }

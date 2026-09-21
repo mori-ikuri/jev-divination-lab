@@ -62,7 +62,31 @@ The API key is read by the SDK from the environment. It is never stored or print
 
 ## Status
 
-Repository bootstrap only. Divination implementations and Daily Run #001 are intentionally out of scope for this initial commit.
+Daily Run v0.1 contains one complete fictional `western_astrology` vertical slice:
+
+- a versioned shared contract and TypeScript types
+- one synthetic observation fixture
+- Jev normalization across 12 shared domains and readiness/risk axes
+- preservation of the raw Jev response and token usage
+- a deliberately limited one-method consensus baseline
+
+It does not yet implement another divination method or a human-facing report.
+
+Run the deterministic tests:
+
+```powershell
+npm test
+```
+
+Run the fictional live fixture while keeping runtime output outside this public repository:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+npm run daily:western
+```
+
+The runner refuses an output root located inside the repository and requires an explicit execution timezone. Runtime directories are keyed by the execution date in that timezone, while `targetDate` remains the date being evaluated. The full contract is documented in [`docs/daily-run-v0.1.md`](docs/daily-run-v0.1.md).
 
 ## License
 
