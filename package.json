@@ -1,0 +1,21 @@
+{
+  "name": "jev-divination-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Researching shared-axis comparison of independent divination readings with Jev / TypeSafe AI.",
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "tsc",
+    "smoke": "node dist/examples/system-one-smoke/minimal.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@typesafe-ai/sdk": "0.6.0"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}
