@@ -5,13 +5,13 @@ Contract version: `0.1`
 
 ## Purpose
 
-Daily Run v0.1 contains fictional `western_astrology` and `four_pillars` observations. Each is normalized independently by Jev / TypeSafe AI onto the same method-independent axes, then passed to either a one-method baseline or an unweighted two-method comparison.
+Daily Run v0.1 contains fictional `western_astrology`, `four_pillars`, and `nine_star_ki` observations. Each is normalized independently by Jev / TypeSafe AI onto the same method-independent axes, then passed to a one-method baseline or an unweighted two- or three-method comparison.
 
 The contract separates three layers:
 
 1. `MethodObservation` preserves method-specific facts, interpretations, timing, limitations, and provenance.
 2. `JevNormalizedMethod` maps one observation onto shared domains while retaining typed answer evidence and the raw Jev response.
-3. `ConsensusResult` exposes a stable downstream shape. One method remains a baseline; two methods expose exact agreement, disagreement, tie, and coverage evidence without claiming statistical validation.
+3. `ConsensusResult` exposes a stable downstream shape. One method remains a baseline; two or three methods expose agreement, majority, disagreement, tie, and coverage evidence without claiming statistical validation.
 
 ## Public and private data boundary
 
@@ -33,7 +33,7 @@ The live runner requires `DAILY_RUN_OUTPUT_ROOT` and rejects a path inside the r
 - `TimingSignal`: a method-specific intraday interval, direction, summary, and supporting fact references.
 - `Provenance`: source classification, source ID, producer, version, creation time, and notes.
 - `JevNormalizedMethod`: typed common-axis answers plus exact raw Jev `model`, `answers`, per-answer `confidence` and `probabilities`, and `usage`.
-- `ConsensusResult`: the downstream common shape. v0.1 accepts one or two unique methods and reports `single_method_baseline` or `two_method_comparison`.
+- `ConsensusResult`: the downstream common shape. v0.1 accepts one to three unique methods and reports `single_method_baseline`, `two_method_comparison`, or `three_method_comparison`.
 
 ## Shared domains
 
@@ -139,6 +139,10 @@ The fixture contains no defensible intraday evidence, so `timingSignals` is empt
 therefore receives the same 12 shared domain pairs and global axes but no morning,
 afternoon, evening, or late-night direction questions.
 
+The public `nine_star_ki` fixture similarly keeps synthetic natal and period stars,
+nine-palace patterns, five-element relations, and directional symbolism inside the
+method-specific layer. It contains no real birth or location data and no intraday signal.
+
 ## One-method consensus semantics
 
 With one normalized method, v0.1 copies normalized values into the downstream consensus shape and sets:
@@ -184,10 +188,29 @@ Global disagreement classifications are:
 - `focus_disagreement`
 - `insufficient_information`
 
-Shared scalar fields such as `bestFocus` remain populated only when the methods return
-the same value; otherwise they are `null` and the raw per-method normalized results remain
-the evidence source. Domain `relevance` is the strongest observed relevance category,
-used only as a coverage summary rather than a weighted average.
+With two methods, shared scalar fields such as `bestFocus` remain populated only when
+both methods return the same value. With three methods, a 2/3 majority may populate the
+field. Otherwise it is `null`, and raw per-method normalized results remain the evidence
+source. Domain `relevance` is the strongest observed relevance category, used only as a
+coverage summary rather than a weighted average.
+
+## Three-method comparison semantics
+
+Three methods add descriptive majority handling without adding method or accuracy weights:
+
+- 3/3 same direction: `exact_agreement`
+- 2/3 same direction: `majority_agreement`
+- three non-opposite directions without a majority: `mixed`
+- opposite directions without a majority: `no_consensus`
+- insufficient evidence that prevents a majority: `insufficient_coverage`
+
+Each domain retains `methodCount`, `relevantMethodCount`, raw direction counts,
+contributors, insufficient methods, majority direction/count, minority methods, and
+outlier candidates. A 2/3 majority is not a truth or accuracy guarantee. A minority
+method is only an outlier candidate and is not labeled incorrect.
+
+Global fields use the same rule: a value is returned only for 3/3 or 2/3 support;
+otherwise it is `null`. Raw normalized method results remain the evidence source.
 
 ## Known research question
 
@@ -198,7 +221,7 @@ sufficient calculated evidence for Jev to normalize that domain.
 ## Explicit non-goals
 
 - real user data
-- more than two methods
+- more than three methods
 - multi-method weighting or tie resolution
 - human-facing Daily report prose
 - predictive certainty or removal of method limitations

@@ -64,6 +64,10 @@ export const AGREEMENT_STATE_VALUES = [
   "partial_disagreement",
   "disagreement",
   "insufficient_coverage",
+  "exact_agreement",
+  "majority_agreement",
+  "mixed",
+  "no_consensus",
 ] as const;
 export type AgreementState = (typeof AGREEMENT_STATE_VALUES)[number];
 
@@ -170,7 +174,11 @@ export interface JevNormalizedMethod {
 }
 
 export interface ConsensusDomainResult {
+  readonly methodCount: number;
   readonly direction: Direction | null;
+  readonly consensusDirection: Direction | null;
+  readonly majorityDirection: Direction | null;
+  readonly majorityCount: number;
   readonly relevance: Relevance;
   readonly agreement: number | null;
   readonly rawDirectionCounts: Readonly<Record<Direction, number>>;
@@ -180,12 +188,16 @@ export interface ConsensusDomainResult {
   readonly tie: boolean;
   readonly contributors: readonly string[];
   readonly insufficientMethods: readonly string[];
+  readonly minorityMethods: readonly string[];
   readonly outlierCandidates: readonly string[];
 }
 
 export interface ConsensusResult {
-  readonly status: "single_method_baseline" | "two_method_comparison";
-  readonly methodCount: 1 | 2;
+  readonly status:
+    | "single_method_baseline"
+    | "two_method_comparison"
+    | "three_method_comparison";
+  readonly methodCount: 1 | 2 | 3;
   readonly sourceMethods: readonly string[];
   readonly domains: Readonly<Record<DailyDomain, ConsensusDomainResult>>;
   readonly primarySignal: PrimarySignal | null;
