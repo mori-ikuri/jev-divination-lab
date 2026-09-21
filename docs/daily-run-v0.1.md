@@ -5,13 +5,13 @@ Contract version: `0.1`
 
 ## Purpose
 
-Daily Run v0.1 contains fictional `western_astrology`, `four_pillars`, and `nine_star_ki` observations. Each is normalized independently by Jev / TypeSafe AI onto the same method-independent axes, then passed to a one-method baseline or an unweighted two- or three-method comparison.
+Daily Run v0.1 contains fictional `western_astrology`, `four_pillars`, `nine_star_ki`, and `sukuyo` observations. Each is normalized independently by Jev / TypeSafe AI onto the same method-independent axes, then passed to a one-method baseline or an unweighted two-, three-, or four-method comparison.
 
 The contract separates three layers:
 
 1. `MethodObservation` preserves method-specific facts, interpretations, timing, limitations, and provenance.
 2. `JevNormalizedMethod` maps one observation onto shared domains while retaining typed answer evidence and the raw Jev response.
-3. `ConsensusResult` exposes a stable downstream shape. One method remains a baseline; two or three methods expose agreement, majority, disagreement, tie, and coverage evidence without claiming statistical validation.
+3. `ConsensusResult` exposes a stable downstream shape. One method remains a baseline; two to four methods expose agreement, majority, disagreement, tie, and coverage evidence without claiming statistical validation.
 
 ## Public and private data boundary
 
@@ -33,7 +33,7 @@ The live runner requires `DAILY_RUN_OUTPUT_ROOT` and rejects a path inside the r
 - `TimingSignal`: a method-specific intraday interval, direction, summary, and supporting fact references.
 - `Provenance`: source classification, source ID, producer, version, creation time, and notes.
 - `JevNormalizedMethod`: typed common-axis answers plus exact raw Jev `model`, `answers`, per-answer `confidence` and `probabilities`, and `usage`.
-- `ConsensusResult`: the downstream common shape. v0.1 accepts one to three unique methods and reports `single_method_baseline`, `two_method_comparison`, or `three_method_comparison`.
+- `ConsensusResult`: the downstream common shape. v0.1 accepts one to four unique methods and reports the corresponding baseline or comparison status.
 
 ## Shared domains
 
@@ -143,6 +143,11 @@ The public `nine_star_ki` fixture similarly keeps synthetic natal and period sta
 nine-palace patterns, five-element relations, and directional symbolism inside the
 method-specific layer. It contains no real birth or location data and no intraday signal.
 
+The public `sukuyo` fixture keeps its selected 27-mansion system, synthetic natal and
+target-day mansions, distance relationship, and auspicious/caution observations inside
+the method-specific layer. It contains no real birth or compatibility data and no
+intraday signal.
+
 ## One-method consensus semantics
 
 With one normalized method, v0.1 copies normalized values into the downstream consensus shape and sets:
@@ -209,8 +214,21 @@ contributors, insufficient methods, majority direction/count, minority methods, 
 outlier candidates. A 2/3 majority is not a truth or accuracy guarantee. A minority
 method is only an outlier candidate and is not labeled incorrect.
 
-Global fields use the same rule: a value is returned only for 3/3 or 2/3 support;
-otherwise it is `null`. Raw normalized method results remain the evidence source.
+Global fields use the same strict-majority rule for the active method count; otherwise
+the value is `null`. Raw normalized method results remain the evidence source.
+
+## Four-method comparison semantics
+
+Four methods require 3/4 support for a majority. A 2/2 split, two matching relevant
+methods plus two insufficient methods, or four different directions has no representative
+direction. The raw counts and coverage fields remain available for inspection.
+
+## Interpretation cautions
+
+- A majority does not mean truth, correctness, or predictive accuracy.
+- An outlier label means only a minority or different signal; it does not mean error.
+- Correlated methods can make an apparent majority overstate the number of independent pieces of evidence.
+- Historical-accuracy weighting and correlation weighting are not implemented.
 
 ## Known research question
 
@@ -221,7 +239,7 @@ sufficient calculated evidence for Jev to normalize that domain.
 ## Explicit non-goals
 
 - real user data
-- more than three methods
+- more than four methods
 - multi-method weighting or tie resolution
 - human-facing Daily report prose
 - predictive certainty or removal of method limitations

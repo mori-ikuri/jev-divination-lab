@@ -196,8 +196,9 @@ export interface ConsensusResult {
   readonly status:
     | "single_method_baseline"
     | "two_method_comparison"
-    | "three_method_comparison";
-  readonly methodCount: 1 | 2 | 3;
+    | "three_method_comparison"
+    | "four_method_comparison";
+  readonly methodCount: 1 | 2 | 3 | 4;
   readonly sourceMethods: readonly string[];
   readonly domains: Readonly<Record<DailyDomain, ConsensusDomainResult>>;
   readonly primarySignal: PrimarySignal | null;

@@ -62,14 +62,14 @@ The API key is read by the SDK from the environment. It is never stored or print
 
 ## Status
 
-Daily Run v0.1 contains three complete fictional method slices: `western_astrology`,
-`four_pillars` (BaZi), and `nine_star_ki`.
+Daily Run v0.1 contains four complete fictional method slices: `western_astrology`,
+`four_pillars` (BaZi), `nine_star_ki`, and `sukuyo`.
 
 - a versioned shared contract and TypeScript types
 - separate synthetic observation fixtures with method-specific facts and interpretations
 - Jev normalization across 12 shared domains and readiness/risk axes
 - preservation of each raw Jev response, confidence, probabilities, and token usage
-- a one-method baseline plus unweighted two- and three-method comparisons
+- a one-method baseline plus unweighted two-, three-, and four-method comparisons
 - explicit agreement, disagreement, tie, insufficient-coverage, and outlier-candidate evidence
 
 It does not use real user data, historical-accuracy weighting, or a human-facing report.
@@ -102,6 +102,22 @@ Run all three fictional methods and generate the three-method comparison:
 $env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:compare:three
+```
+
+Run the fictional Sukuyo fixture alone:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+npm run daily:sukuyo
+```
+
+Run all four fictional methods and generate the four-method comparison:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+npm run daily:compare:four
 ```
 
 The runner refuses an output root located inside the repository and requires an explicit execution timezone. Runtime directories are keyed by the execution date in that timezone, while `targetDate` remains the date being evaluated. The full contract is documented in [`docs/daily-run-v0.1.md`](docs/daily-run-v0.1.md).

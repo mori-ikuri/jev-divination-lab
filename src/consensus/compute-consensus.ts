@@ -221,7 +221,7 @@ function compareDomain(
   }
 
   if (majorityDirection) {
-    const exact = majorityCount === 3;
+    const exact = majorityCount === methodCount;
     return {
       methodCount,
       direction: majorityDirection,
@@ -267,18 +267,18 @@ function compareDomain(
     disagreementState: uniqueDirections.length > 1
       ? "direction_disagreement"
       : "insufficient_information",
-    tie: relevant.length > 1,
+    tie: uniqueDirections.length > 1,
     contributors,
     insufficientMethods,
     minorityMethods: [],
-    outlierCandidates: relevant.length > 1 ? contributors : [],
+    outlierCandidates: uniqueDirections.length > 1 ? contributors : [],
   };
 }
 
 function validateComparableMethods(methods: readonly JevNormalizedMethod[]): void {
-  if (methods.length < 1 || methods.length > 3) {
+  if (methods.length < 1 || methods.length > 4) {
     throw new RangeError(
-      `Daily Run v0.1 consensus supports one to three normalized methods; received ${methods.length}.`,
+      `Daily Run v0.1 consensus supports one to four normalized methods; received ${methods.length}.`,
     );
   }
   const methodIds = methods.map((method) => method.methodId);
@@ -347,14 +347,23 @@ export function computeConsensus(
     if (Object.keys(commonDirections).length > 0) intradayDirections = commonDirections;
   }
 
-  const methodCount = normalizedMethods.length === 1 ? 1 : normalizedMethods.length === 2 ? 2 : 3;
+  const methodCount =
+    normalizedMethods.length === 1
+      ? 1
+      : normalizedMethods.length === 2
+        ? 2
+        : normalizedMethods.length === 3
+          ? 3
+          : 4;
   return {
     status:
       methodCount === 1
         ? "single_method_baseline"
         : methodCount === 2
           ? "two_method_comparison"
-          : "three_method_comparison",
+          : methodCount === 3
+            ? "three_method_comparison"
+            : "four_method_comparison",
     methodCount,
     sourceMethods: normalizedMethods.map((method) => method.methodId),
     domains,
@@ -384,10 +393,17 @@ export function computeConsensus(
               "No method weighting or historical-accuracy weighting is applied.",
               "When two methods differ, neither can be identified as the actual outlier without a majority.",
             ]
-          : [
-              "A 2/3 majority is a descriptive comparison, not a truth or accuracy guarantee.",
-              "Minority methods are outlier candidates only; they are not judged incorrect.",
-              "No method weighting or historical-accuracy weighting is applied.",
-            ],
+          : methodCount === 3
+            ? [
+                "A 2/3 majority is a descriptive comparison, not a truth or accuracy guarantee.",
+                "Minority methods are outlier candidates only; they are not judged incorrect.",
+                "No method weighting or historical-accuracy weighting is applied.",
+              ]
+            : [
+                "A 3/4 majority is a descriptive comparison, not a truth or accuracy guarantee.",
+                "A 2/2 split has no representative direction.",
+                "Minority methods are outlier candidates only; they are not judged incorrect.",
+                "No method, historical-accuracy, or correlation weighting is applied.",
+              ],
   };
 }
