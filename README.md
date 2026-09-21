@@ -62,15 +62,17 @@ The API key is read by the SDK from the environment. It is never stored or print
 
 ## Status
 
-Daily Run v0.1 contains one complete fictional `western_astrology` vertical slice:
+Daily Run v0.1 contains two complete fictional method slices: `western_astrology` and
+`four_pillars` (BaZi).
 
 - a versioned shared contract and TypeScript types
-- one synthetic observation fixture
+- separate synthetic observation fixtures with method-specific facts and interpretations
 - Jev normalization across 12 shared domains and readiness/risk axes
-- preservation of the raw Jev response and token usage
-- a deliberately limited one-method consensus baseline
+- preservation of each raw Jev response, confidence, probabilities, and token usage
+- a one-method baseline and an unweighted two-method comparison
+- explicit agreement, disagreement, tie, insufficient-coverage, and outlier-candidate evidence
 
-It does not yet implement another divination method or a human-facing report.
+It does not use real user data, historical-accuracy weighting, or a human-facing report.
 
 Run the deterministic tests:
 
@@ -84,6 +86,14 @@ Run the fictional live fixture while keeping runtime output outside this public 
 $env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:western
+```
+
+Run both fictional methods and generate the two-method comparison:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+npm run daily:compare
 ```
 
 The runner refuses an output root located inside the repository and requires an explicit execution timezone. Runtime directories are keyed by the execution date in that timezone, while `targetDate` remains the date being evaluated. The full contract is documented in [`docs/daily-run-v0.1.md`](docs/daily-run-v0.1.md).

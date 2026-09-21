@@ -5,13 +5,13 @@ Contract version: `0.1`
 
 ## Purpose
 
-Daily Run v0.1 proves one complete vertical slice before adding more divination methods. A fictional `western_astrology` observation is normalized by Jev / TypeSafe AI onto method-independent axes, then passed to a minimal one-method consensus baseline.
+Daily Run v0.1 contains fictional `western_astrology` and `four_pillars` observations. Each is normalized independently by Jev / TypeSafe AI onto the same method-independent axes, then passed to either a one-method baseline or an unweighted two-method comparison.
 
 The contract separates three layers:
 
 1. `MethodObservation` preserves method-specific facts, interpretations, timing, limitations, and provenance.
 2. `JevNormalizedMethod` maps one observation onto shared domains while retaining typed answer evidence and the raw Jev response.
-3. `ConsensusResult` exposes a stable downstream shape. With one method it is explicitly a baseline, not evidence of cross-method agreement.
+3. `ConsensusResult` exposes a stable downstream shape. One method remains a baseline; two methods expose exact agreement, disagreement, tie, and coverage evidence without claiming statistical validation.
 
 ## Public and private data boundary
 
@@ -33,7 +33,7 @@ The live runner requires `DAILY_RUN_OUTPUT_ROOT` and rejects a path inside the r
 - `TimingSignal`: a method-specific intraday interval, direction, summary, and supporting fact references.
 - `Provenance`: source classification, source ID, producer, version, creation time, and notes.
 - `JevNormalizedMethod`: typed common-axis answers plus exact raw Jev `model`, `answers`, per-answer `confidence` and `probabilities`, and `usage`.
-- `ConsensusResult`: the downstream common shape. v0.1 accepts exactly one method and reports `single_method_baseline`.
+- `ConsensusResult`: the downstream common shape. v0.1 accepts one or two unique methods and reports `single_method_baseline` or `two_method_comparison`.
 
 ## Shared domains
 
@@ -113,7 +113,7 @@ MethodObservation
   -> method-neutral common domains
 ```
 
-Common-domain output must not expose western-astrology-specific house categories or use them as shared axes.
+Common-domain output must not expose western-astrology-specific house categories or Four Pillars concepts such as pillars, ten gods, element balance, luck cycles, clashes, or useful elements as shared axes.
 
 The unmodified response data is retained under `rawResponse`:
 
@@ -128,21 +128,77 @@ usage.output_tokens
 
 HTTP status and the optional request ID are stored separately as transport metadata. They are not part of the model response body.
 
+## Method-specific fixture boundary
+
+The public `four_pillars` fixture keeps synthetic natal pillars, day master, ten gods,
+five-element balance, luck-cycle and period influences, interactions, and useful-element
+observations inside `calculationFacts`. BaZi-system readings derived from those facts are
+stored separately in `interpretations`.
+
+The fixture contains no defensible intraday evidence, so `timingSignals` is empty. Jev
+therefore receives the same 12 shared domain pairs and global axes but no morning,
+afternoon, evening, or late-night direction questions.
+
 ## One-method consensus semantics
 
-v0.1 accepts exactly one normalized method. It copies normalized values into the downstream consensus shape and sets:
+With one normalized method, v0.1 copies normalized values into the downstream consensus shape and sets:
 
 - `status = single_method_baseline`
 - `methodCount = 1`
 - every domain `agreement = null`
 - limitation: cross-method agreement is not measurable with one method
 
-This avoids presenting a single method as corroborated consensus. Adding a second method requires a separately specified aggregation and tie policy.
+This avoids presenting a single method as corroborated consensus.
+
+## Two-method comparison semantics
+
+The two-method engine applies no method weighting and no historical-accuracy weighting.
+For every shared domain it records:
+
+- raw counts for every `Direction` value
+- the number and IDs of methods with both non-`none` relevance and a non-`insufficient_signal` direction
+- methods lacking sufficient coverage
+- `agreementState`: `agreement`, `partial_disagreement`, `disagreement`, or `insufficient_coverage`
+- `disagreementState`: `no_disagreement`, `direction_disagreement`, or `insufficient_information`
+- a boolean `tie`
+- symmetric `outlierCandidates`
+
+Classification rules are deliberately small:
+
+- two relevant methods with the same exact direction: `agreement`
+- one relevant method and one missing/insufficient method: `insufficient_coverage`
+- opposite polarities: `disagreement`
+- different but non-opposite directions, including neutral versus positive: `partial_disagreement`
+- any two different, equally weighted directions: `tie = true`
+
+With only two methods there is no majority. Both differing methods are listed as outlier
+candidates, but neither is identified as the actual outlier. The numeric `agreement`
+field is `1` only for exact 2/2 agreement, `0` for two differing relevant directions,
+and `null` when coverage is insufficient or only one method is present. It is not a
+statistically meaningful agreement rate.
+
+Global disagreement classifications are:
+
+- `no_disagreement`
+- `direction_disagreement`
+- `focus_disagreement`
+- `insufficient_information`
+
+Shared scalar fields such as `bestFocus` remain populated only when the methods return
+the same value; otherwise they are `null` and the raw per-method normalized results remain
+the evidence source. Domain `relevance` is the strongest observed relevance category,
+used only as a coverage summary rather than a weighted average.
+
+## Known research question
+
+Future work must distinguish whether `insufficient_signal` means the divination method
+intrinsically provides no evidence for a domain, or the current `MethodObservation` lacks
+sufficient calculated evidence for Jev to normalize that domain.
 
 ## Explicit non-goals
 
 - real user data
-- `four_pillars` or any method other than `western_astrology`
+- more than two methods
 - multi-method weighting or tie resolution
 - human-facing Daily report prose
 - predictive certainty or removal of method limitations

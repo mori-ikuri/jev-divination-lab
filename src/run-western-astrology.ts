@@ -1,24 +1,12 @@
 import { mkdir, writeFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve, sep } from "node:path";
+import { resolve } from "node:path";
 
 import type { DailyRun } from "./contracts/daily-run.js";
 import { computeConsensus } from "./consensus/compute-consensus.js";
 import { WESTERN_ASTROLOGY_FICTIONAL_FIXTURE } from "./fixtures/western-astrology-fictional.js";
 import { normalizeMethodObservation } from "./jev/normalize-method.js";
+import { assertPrivateOutputRoot } from "./runtime/private-output.js";
 import { deriveExecutionDateKey } from "./runtime/run-date.js";
-
-function assertPrivateOutputRoot(repositoryRoot: string, outputRoot: string): void {
-  const relativePath = relative(repositoryRoot, outputRoot);
-  const isInsideRepository =
-    relativePath === "" ||
-    (!relativePath.startsWith(`..${sep}`) && relativePath !== ".." && !isAbsolute(relativePath));
-
-  if (isInsideRepository) {
-    throw new Error(
-      "DAILY_RUN_OUTPUT_ROOT must be outside the public repository. Use a private runtime data directory.",
-    );
-  }
-}
 
 async function main(): Promise<void> {
   const configuredOutputRoot = process.env.DAILY_RUN_OUTPUT_ROOT;
@@ -33,8 +21,7 @@ async function main(): Promise<void> {
   }
 
   const repositoryRoot = resolve(process.cwd());
-  const outputRoot = resolve(configuredOutputRoot);
-  assertPrivateOutputRoot(repositoryRoot, outputRoot);
+  const outputRoot = assertPrivateOutputRoot(repositoryRoot, configuredOutputRoot);
 
   const normalized = await normalizeMethodObservation(WESTERN_ASTROLOGY_FICTIONAL_FIXTURE);
   const consensus = computeConsensus([normalized]);

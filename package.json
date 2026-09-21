@@ -8,8 +8,9 @@
     "check": "tsc --noEmit",
     "build": "tsc",
     "smoke": "node dist/examples/system-one-smoke/minimal.js",
-    "test": "npm run build && node --test dist/tests/daily-run-v0.1.test.js",
-    "daily:western": "npm run build && node dist/src/run-western-astrology.js"
+    "test": "npm run build && node --test dist/tests/daily-run-v0.1.test.js dist/tests/four-pillars-consensus.test.js",
+    "daily:western": "npm run build && node dist/src/run-western-astrology.js",
+    "daily:compare": "npm run build && node dist/src/run-two-method-comparison.js"
   },
   "engines": {
     "node": ">=20"

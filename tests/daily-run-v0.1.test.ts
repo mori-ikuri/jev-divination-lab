@@ -151,9 +151,10 @@ test("typed mapping preserves raw response evidence and produces one-method base
   assert.equal(consensus.methodCount, 1);
   assert.equal(consensus.domains.work.agreement, null);
   assert.equal(consensus.primarySignal, "execution");
-  assert.throws(() => computeConsensus([]), /exactly one normalized method/);
+  assert.deepEqual(consensus.disagreementClassifications, ["insufficient_information"]);
+  assert.throws(() => computeConsensus([]), /one or two normalized methods/);
   assert.throws(
     () => computeConsensus([normalized, normalized]),
-    /exactly one normalized method/,
+    /unique methodId/,
   );
 });

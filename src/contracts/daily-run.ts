@@ -58,6 +58,24 @@ export type DayPart = (typeof DAY_PARTS)[number];
 export const YES_NO_VALUES = ["yes", "no"] as const;
 export type YesNo = (typeof YES_NO_VALUES)[number];
 
+export const AGREEMENT_STATE_VALUES = [
+  "single_method",
+  "agreement",
+  "partial_disagreement",
+  "disagreement",
+  "insufficient_coverage",
+] as const;
+export type AgreementState = (typeof AGREEMENT_STATE_VALUES)[number];
+
+export const DISAGREEMENT_CLASSIFICATION_VALUES = [
+  "no_disagreement",
+  "direction_disagreement",
+  "focus_disagreement",
+  "insufficient_information",
+] as const;
+export type DisagreementClassification =
+  (typeof DISAGREEMENT_CLASSIFICATION_VALUES)[number];
+
 export interface SubjectRef {
   readonly id: string;
   readonly label: string;
@@ -152,27 +170,35 @@ export interface JevNormalizedMethod {
 }
 
 export interface ConsensusDomainResult {
-  readonly direction: Direction;
+  readonly direction: Direction | null;
   readonly relevance: Relevance;
   readonly agreement: number | null;
+  readonly rawDirectionCounts: Readonly<Record<Direction, number>>;
+  readonly relevantMethodCount: number;
+  readonly agreementState: AgreementState;
+  readonly disagreementState: DisagreementClassification;
+  readonly tie: boolean;
   readonly contributors: readonly string[];
+  readonly insufficientMethods: readonly string[];
+  readonly outlierCandidates: readonly string[];
 }
 
 export interface ConsensusResult {
-  readonly status: "single_method_baseline";
-  readonly methodCount: 1;
-  readonly sourceMethods: readonly [string];
+  readonly status: "single_method_baseline" | "two_method_comparison";
+  readonly methodCount: 1 | 2;
+  readonly sourceMethods: readonly string[];
   readonly domains: Readonly<Record<DailyDomain, ConsensusDomainResult>>;
-  readonly primarySignal: PrimarySignal;
-  readonly bestFocus: DailyDomain;
-  readonly cautionFocus: DailyDomain | "none";
-  readonly decisionReadiness: ReadinessLevel;
-  readonly actionReadiness: ReadinessLevel;
-  readonly socialOpenness: ReadinessLevel;
-  readonly changeReadiness: ReadinessLevel;
-  readonly riskLevel: RiskLevel;
-  readonly hasIntradayTimingSignal: YesNo;
+  readonly primarySignal: PrimarySignal | null;
+  readonly bestFocus: DailyDomain | null;
+  readonly cautionFocus: DailyDomain | "none" | null;
+  readonly decisionReadiness: ReadinessLevel | null;
+  readonly actionReadiness: ReadinessLevel | null;
+  readonly socialOpenness: ReadinessLevel | null;
+  readonly changeReadiness: ReadinessLevel | null;
+  readonly riskLevel: RiskLevel | null;
+  readonly hasIntradayTimingSignal: YesNo | null;
   readonly intradayDirections?: Readonly<Partial<Record<DayPart, Direction>>>;
+  readonly disagreementClassifications: readonly DisagreementClassification[];
   readonly evidenceConfidenceMean: number;
   readonly limitations: readonly string[];
 }
