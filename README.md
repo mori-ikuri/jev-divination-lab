@@ -62,15 +62,21 @@ The API key is read by the SDK from the environment. It is never stored or print
 
 ## Status
 
-Daily Run v0.1 contains four complete fictional method slices: `western_astrology`,
-`four_pillars` (BaZi), `nine_star_ki`, and `sukuyo`.
+Daily Run v0.2 contains five complete fictional method slices: `western_astrology`,
+`four_pillars` (BaZi), `nine_star_ki`, `sukuyo`, and `numerology`.
 
 - a versioned shared contract and TypeScript types
 - separate synthetic observation fixtures with method-specific facts and interpretations
 - Jev normalization across 12 shared domains and readiness/risk axes
 - preservation of each raw Jev response, confidence, probabilities, and token usage
-- a one-method baseline plus unweighted two-, three-, and four-method comparisons
+- a registry-driven runner and unweighted consensus for any positive method count
 - explicit agreement, disagreement, tie, insufficient-coverage, and outlier-candidate evidence
+
+The remaining planned Daily Run methods are `jyotish`, `zi_wei_dou_shu`, and
+`sanmeigaku`. Tarot, I Ching, Rune, and other draw- or selection-based methods
+are outside the v0.2 target because this phase requires reproducible fixed inputs.
+Deterministic generators remain a later phase; current public method observations
+are explicit fictional fixtures.
 
 It does not use real user data, historical-accuracy weighting, or a human-facing report.
 
@@ -120,6 +126,14 @@ $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:compare:four
 ```
 
+Run all five registered fictional methods and generate the v0.2 comparison:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+npm run daily:compare:five
+```
+
 Run the Western Astrology input-quality experiment against an existing private baseline artifact:
 
 ```powershell
@@ -142,7 +156,7 @@ npm run daily:four-pillars:enrichment
 
 The experiment keeps the original Four Pillars fixture unchanged, normalizes a separate enriched fictional chart, and stores the per-domain coverage, confidence, and token-usage comparison outside the repository.
 
-The runner refuses an output root located inside the repository and requires an explicit execution timezone. Runtime directories are keyed by the execution date in that timezone, while `targetDate` remains the date being evaluated. The full contract is documented in [`docs/daily-run-v0.1.md`](docs/daily-run-v0.1.md).
+The runner refuses an output root located inside the repository and requires an explicit execution timezone. Runtime directories are keyed by the execution date in that timezone, while `targetDate` remains the date being evaluated. The current contract is documented in [`docs/daily-run-v0.2.md`](docs/daily-run-v0.2.md); v0.1 remains as historical documentation.
 
 ## License
 

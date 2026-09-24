@@ -276,10 +276,8 @@ function compareDomain(
 }
 
 function validateComparableMethods(methods: readonly JevNormalizedMethod[]): void {
-  if (methods.length < 1 || methods.length > 4) {
-    throw new RangeError(
-      `Daily Run v0.1 consensus supports one to four normalized methods; received ${methods.length}.`,
-    );
+  if (methods.length < 1) {
+    throw new RangeError("Daily Run v0.2 consensus requires at least one normalized method.");
   }
   const methodIds = methods.map((method) => method.methodId);
   if (new Set(methodIds).size !== methodIds.length) {
@@ -347,14 +345,7 @@ export function computeConsensus(
     if (Object.keys(commonDirections).length > 0) intradayDirections = commonDirections;
   }
 
-  const methodCount =
-    normalizedMethods.length === 1
-      ? 1
-      : normalizedMethods.length === 2
-        ? 2
-        : normalizedMethods.length === 3
-          ? 3
-          : 4;
+  const methodCount = normalizedMethods.length;
   return {
     status:
       methodCount === 1
@@ -363,7 +354,9 @@ export function computeConsensus(
           ? "two_method_comparison"
           : methodCount === 3
             ? "three_method_comparison"
-            : "four_method_comparison",
+            : methodCount === 4
+              ? "four_method_comparison"
+              : "multi_method_comparison",
     methodCount,
     sourceMethods: normalizedMethods.map((method) => method.methodId),
     domains,
@@ -399,11 +392,17 @@ export function computeConsensus(
                 "Minority methods are outlier candidates only; they are not judged incorrect.",
                 "No method weighting or historical-accuracy weighting is applied.",
               ]
-            : [
-                "A 3/4 majority is a descriptive comparison, not a truth or accuracy guarantee.",
-                "A 2/2 split has no representative direction.",
-                "Minority methods are outlier candidates only; they are not judged incorrect.",
-                "No method, historical-accuracy, or correlation weighting is applied.",
-              ],
+            : methodCount === 4
+              ? [
+                  "A 3/4 majority is a descriptive comparison, not a truth or accuracy guarantee.",
+                  "A 2/2 split has no representative direction.",
+                  "Minority methods are outlier candidates only; they are not judged incorrect.",
+                  "No method, historical-accuracy, or correlation weighting is applied.",
+                ]
+              : [
+                  `A strict majority across ${methodCount} methods is descriptive, not a truth or accuracy guarantee.`,
+                  "Minority methods are outlier candidates only; they are not judged incorrect.",
+                  "No method, historical-accuracy, or correlation weighting is applied.",
+                ],
   };
 }

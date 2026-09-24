@@ -197,8 +197,9 @@ export interface ConsensusResult {
     | "single_method_baseline"
     | "two_method_comparison"
     | "three_method_comparison"
-    | "four_method_comparison";
-  readonly methodCount: 1 | 2 | 3 | 4;
+    | "four_method_comparison"
+    | "multi_method_comparison";
+  readonly methodCount: number;
   readonly sourceMethods: readonly string[];
   readonly domains: Readonly<Record<DailyDomain, ConsensusDomainResult>>;
   readonly primarySignal: PrimarySignal | null;
@@ -217,7 +218,7 @@ export interface ConsensusResult {
 }
 
 export interface DailyRun {
-  readonly schemaVersion: "0.1";
+  readonly schemaVersion: "0.2";
   readonly runId: string;
   readonly executionTimestamp: string;
   readonly executionDate: string;
