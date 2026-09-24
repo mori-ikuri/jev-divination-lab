@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "jev-divination-lab",
+  "name": "Jev Divination Lab",
+  "kind": "research",
+  "status": "active",
+  "visibility": "public",
+  "paths": {
+    "project": "D:\\Ikuri\\02-Lab\\Projects\\jev-divination-lab",
+    "data": "D:\\Ikuri\\02-Lab\\Data\\jev-divination-lab"
+  },
+  "git": {
+    "enabled": true,
+    "commitPolicy": "required",
+    "pushPolicy": "owner_approval"
+  }
+}

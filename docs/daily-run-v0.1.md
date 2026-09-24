@@ -20,7 +20,7 @@ Public repository content may contain only source code, documentation, and clear
 Runtime output must be written outside the repository. The local convention is:
 
 ```text
-D:\AI-Work\JevLab-Data\runs\
+D:\Ikuri\02-Lab\Data\jev-divination-lab\runs\
 ```
 
 The live runner requires `DAILY_RUN_OUTPUT_ROOT` and rejects a path inside the repository. `TYPESAFE_API_KEY` is read by the SDK from the process environment and is never persisted or printed.

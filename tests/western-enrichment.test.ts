@@ -198,8 +198,8 @@ test("coverage comparison reports relevance, confidence, and token deltas", () =
 });
 
 test("experiment output and baseline paths must stay outside the public repository", () => {
-  const repositoryRoot = resolve("D:\\AI-Work\\JevLab\\jev-divination-lab");
-  const privateRoot = resolve("D:\\AI-Work\\JevLab-Data\\runs");
+  const repositoryRoot = resolve("D:\\Ikuri\\02-Lab\\Projects\\jev-divination-lab");
+  const privateRoot = resolve("D:\\Ikuri\\02-Lab\\Data\\jev-divination-lab\\runs");
   assert.equal(assertPrivateOutputRoot(repositoryRoot, privateRoot), privateRoot);
   assert.throws(
     () => assertPrivateOutputRoot(repositoryRoot, resolve(repositoryRoot, "experiment-output")),

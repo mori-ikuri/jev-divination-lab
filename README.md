@@ -28,7 +28,7 @@ Do not commit:
 Private runtime data belongs outside this repository. The local development convention is:
 
 ```text
-D:\AI-Work\JevLab-Data\runs\
+D:\Ikuri\02-Lab\Data\jev-divination-lab\runs\
 ```
 
 ## Minimal Jev connectivity example
@@ -83,7 +83,7 @@ npm test
 Run the fictional live fixture while keeping runtime output outside this public repository:
 
 ```powershell
-$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:western
 ```
@@ -91,7 +91,7 @@ npm run daily:western
 Run both fictional methods and generate the two-method comparison:
 
 ```powershell
-$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:compare
 ```
@@ -99,7 +99,7 @@ npm run daily:compare
 Run all three fictional methods and generate the three-method comparison:
 
 ```powershell
-$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:compare:three
 ```
@@ -107,7 +107,7 @@ npm run daily:compare:three
 Run the fictional Sukuyo fixture alone:
 
 ```powershell
-$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:sukuyo
 ```
@@ -115,7 +115,7 @@ npm run daily:sukuyo
 Run all four fictional methods and generate the four-method comparison:
 
 ```powershell
-$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:compare:four
 ```
@@ -123,9 +123,9 @@ npm run daily:compare:four
 Run the Western Astrology input-quality experiment against an existing private baseline artifact:
 
 ```powershell
-$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
-$env:DAILY_RUN_BASELINE_PATH = 'D:\AI-Work\JevLab-Data\runs\2026-09-21\daily-v0.1-four-method-fictional-<timestamp>.json'
+$env:DAILY_RUN_BASELINE_PATH = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs\2026-09-21\daily-v0.1-four-method-fictional-<timestamp>.json'
 npm run daily:western:enrichment
 ```
 
@@ -134,9 +134,9 @@ The experiment keeps the original Western fixture unchanged, normalizes a separa
 Run the Four Pillars input-quality experiment against an existing private baseline artifact:
 
 ```powershell
-$env:DAILY_RUN_OUTPUT_ROOT = 'D:\AI-Work\JevLab-Data\runs'
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
-$env:DAILY_RUN_BASELINE_PATH = 'D:\AI-Work\JevLab-Data\runs\2026-09-21\daily-v0.1-four-method-fictional-<timestamp>.json'
+$env:DAILY_RUN_BASELINE_PATH = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs\2026-09-21\daily-v0.1-four-method-fictional-<timestamp>.json'
 npm run daily:four-pillars:enrichment
 ```
 
