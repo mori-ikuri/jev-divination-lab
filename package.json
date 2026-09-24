@@ -8,7 +8,7 @@
     "check": "tsc --noEmit",
     "build": "tsc",
     "smoke": "node dist/examples/system-one-smoke/minimal.js",
-    "test": "npm run build && node --test dist/tests/daily-run-v0.1.test.js dist/tests/daily-run-v0.2.test.js dist/tests/jyotish.test.js dist/tests/four-pillars-consensus.test.js dist/tests/nine-star-ki.test.js dist/tests/three-method-consensus.test.js dist/tests/sukuyo.test.js dist/tests/four-method-consensus.test.js dist/tests/western-enrichment.test.js dist/tests/four-pillars-enrichment.test.js",
+    "test": "npm run build && node --test dist/tests/daily-run-v0.1.test.js dist/tests/daily-run-v0.2.test.js dist/tests/jyotish.test.js dist/tests/zi-wei-dou-shu.test.js dist/tests/four-pillars-consensus.test.js dist/tests/nine-star-ki.test.js dist/tests/three-method-consensus.test.js dist/tests/sukuyo.test.js dist/tests/four-method-consensus.test.js dist/tests/western-enrichment.test.js dist/tests/four-pillars-enrichment.test.js",
     "daily:run": "npm run build && node dist/src/run-daily.js",
     "daily:western": "npm run build && node dist/src/run-daily.js western_astrology",
     "daily:compare": "npm run build && node dist/src/run-daily.js western_astrology four_pillars",
@@ -18,6 +18,8 @@
     "daily:compare:five": "npm run build && node dist/src/run-daily.js western_astrology four_pillars nine_star_ki sukuyo numerology",
     "daily:jyotish": "npm run build && node dist/src/run-daily.js jyotish",
     "daily:compare:six": "npm run build && node dist/src/run-daily.js western_astrology four_pillars nine_star_ki sukuyo numerology jyotish",
+    "daily:zi-wei-dou-shu": "npm run build && node dist/src/run-daily.js zi_wei_dou_shu",
+    "daily:compare:seven": "npm run build && node dist/src/run-daily.js western_astrology four_pillars nine_star_ki sukuyo numerology jyotish zi_wei_dou_shu",
     "daily:western:enrichment": "npm run build && node dist/src/run-western-enrichment.js",
     "daily:four-pillars:enrichment": "npm run build && node dist/src/run-four-pillars-enrichment.js"
   },

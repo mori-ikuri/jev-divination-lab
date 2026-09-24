@@ -6,8 +6,8 @@ Contract version: `0.2`
 
 Daily Run v0.2 preserves the method-independent observation and Jev normalization
 model from v0.1 while removing the four-method consensus ceiling. It also makes
-method selection registry-driven. The registry currently contains six fictional
-methods through `jyotish`.
+method selection registry-driven. The registry currently contains seven fictional
+methods through `zi_wei_dou_shu`.
 
 The implementation sequence remains:
 
@@ -26,8 +26,9 @@ The canonical v0.2 registry order is:
 4. `sukuyo`
 5. `numerology`
 6. `jyotish`
+7. `zi_wei_dou_shu`
 
-The remaining planned methods are `zi_wei_dou_shu` and `sanmeigaku`. Draw- or selection-based methods such as Tarot, I Ching, and Rune
+The remaining planned method is `sanmeigaku`. Draw- or selection-based methods such as Tarot, I Ching, and Rune
 are outside this Daily Run target because the current research phase requires
 reproducible fixed inputs.
 
@@ -85,7 +86,7 @@ Example:
 ```powershell
 $env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
-npm run daily:compare:six
+npm run daily:compare:seven
 ```
 
 ## Numerology profile
@@ -121,6 +122,25 @@ The v0.2 Jyotish fixture uses one explicit, limited research profile:
 The fixture is hand-authored test data, not output from a deterministic Jyotish
 calculation engine. Alternative ayanamshas, house conventions, node models, and
 school-specific synthesis rules are not silently treated as equivalent.
+
+## Zi Wei Dou Shu profile
+
+The v0.2 Zi Wei Dou Shu fixture uses an explicit direct-state research profile:
+
+- a supplied twelve-palace state rather than calendar-derived palace placement;
+- all twelve palace roles retained, with detailed interpretation limited to Life,
+  Career, Wealth, Travel, Spouse, and Fortune;
+- selected placements for Zi Wei, Tian Fu, Tian Ji, Wu Qu, Tai Yang, Tai Yin,
+  and Tian Liang rather than a complete fourteen-principal-star chart;
+- only Wen Chang and Wen Qu from the auxiliary-star systems;
+- no Four Transformations, so no Heavenly Stem transformation table is chosen;
+- a supplied flowing-day overlay highlighting Career, Travel, Fortune, and Life;
+- no flowing-hour or other intraday signal.
+
+The fixture does not perform lunar-calendar conversion, leap-month handling,
+birth-hour boundary selection, true-solar-time correction, or a school-specific
+star-placement calculation. Alternative palace, star, Four Transformation, and
+flowing-period conventions are not silently treated as equivalent.
 
 ## Public and private boundary
 

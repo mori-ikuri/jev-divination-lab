@@ -5,6 +5,7 @@ import { NINE_STAR_KI_FICTIONAL_FIXTURE } from "../fixtures/nine-star-ki-fiction
 import { NUMEROLOGY_FICTIONAL_FIXTURE } from "../fixtures/numerology-fictional.js";
 import { SUKUYO_FICTIONAL_FIXTURE } from "../fixtures/sukuyo-fictional.js";
 import { WESTERN_ASTROLOGY_FICTIONAL_FIXTURE } from "../fixtures/western-astrology-fictional.js";
+import { ZI_WEI_DOU_SHU_FICTIONAL_FIXTURE } from "../fixtures/zi-wei-dou-shu-fictional.js";
 
 export interface RegisteredMethod {
   readonly id: string;
@@ -42,6 +43,11 @@ export const DAILY_METHOD_REGISTRY: readonly RegisteredMethod[] = [
     id: "jyotish",
     displayName: "Jyotish / Indian Astrology",
     observation: JYOTISH_FICTIONAL_FIXTURE,
+  },
+  {
+    id: "zi_wei_dou_shu",
+    displayName: "Zi Wei Dou Shu / 紫微斗数",
+    observation: ZI_WEI_DOU_SHU_FICTIONAL_FIXTURE,
   },
 ] as const;
 

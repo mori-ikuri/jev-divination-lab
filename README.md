@@ -62,8 +62,9 @@ The API key is read by the SDK from the environment. It is never stored or print
 
 ## Status
 
-Daily Run v0.2 contains six complete fictional method slices: `western_astrology`,
-`four_pillars` (BaZi), `nine_star_ki`, `sukuyo`, `numerology`, and `jyotish`.
+Daily Run v0.2 contains seven complete fictional method slices: `western_astrology`,
+`four_pillars` (BaZi), `nine_star_ki`, `sukuyo`, `numerology`, `jyotish`,
+and `zi_wei_dou_shu`.
 
 - a versioned shared contract and TypeScript types
 - separate synthetic observation fixtures with method-specific facts and interpretations
@@ -72,8 +73,7 @@ Daily Run v0.2 contains six complete fictional method slices: `western_astrology
 - a registry-driven runner and unweighted consensus for any positive method count
 - explicit agreement, disagreement, tie, insufficient-coverage, and outlier-candidate evidence
 
-The remaining planned Daily Run methods are `zi_wei_dou_shu` and
-`sanmeigaku`. Tarot, I Ching, Rune, and other draw- or selection-based methods
+The remaining planned Daily Run method is `sanmeigaku`. Tarot, I Ching, Rune, and other draw- or selection-based methods
 are outside the v0.2 target because this phase requires reproducible fixed inputs.
 Deterministic generators remain a later phase; current public method observations
 are explicit fictional fixtures.
@@ -148,6 +148,22 @@ Run all six registered fictional methods and generate the v0.2 comparison:
 $env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
 npm run daily:compare:six
+```
+
+Run the fictional Zi Wei Dou Shu fixture alone:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+npm run daily:zi-wei-dou-shu
+```
+
+Run all seven registered fictional methods and generate the v0.2 comparison:
+
+```powershell
+$env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
+$env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
+npm run daily:compare:seven
 ```
 
 Run the Western Astrology input-quality experiment against an existing private baseline artifact:
