@@ -1,5 +1,6 @@
 import type { MethodObservation } from "../contracts/daily-run.js";
 import { FOUR_PILLARS_FICTIONAL_FIXTURE } from "../fixtures/four-pillars-fictional.js";
+import { JYOTISH_FICTIONAL_FIXTURE } from "../fixtures/jyotish-fictional.js";
 import { NINE_STAR_KI_FICTIONAL_FIXTURE } from "../fixtures/nine-star-ki-fictional.js";
 import { NUMEROLOGY_FICTIONAL_FIXTURE } from "../fixtures/numerology-fictional.js";
 import { SUKUYO_FICTIONAL_FIXTURE } from "../fixtures/sukuyo-fictional.js";
@@ -36,6 +37,11 @@ export const DAILY_METHOD_REGISTRY: readonly RegisteredMethod[] = [
     id: "numerology",
     displayName: "Numerology",
     observation: NUMEROLOGY_FICTIONAL_FIXTURE,
+  },
+  {
+    id: "jyotish",
+    displayName: "Jyotish / Indian Astrology",
+    observation: JYOTISH_FICTIONAL_FIXTURE,
   },
 ] as const;
 

@@ -6,8 +6,8 @@ Contract version: `0.2`
 
 Daily Run v0.2 preserves the method-independent observation and Jev normalization
 model from v0.1 while removing the four-method consensus ceiling. It also makes
-method selection registry-driven and adds a fifth fictional method,
-`numerology`.
+method selection registry-driven. The registry currently contains six fictional
+methods through `jyotish`.
 
 The implementation sequence remains:
 
@@ -25,9 +25,9 @@ The canonical v0.2 registry order is:
 3. `nine_star_ki`
 4. `sukuyo`
 5. `numerology`
+6. `jyotish`
 
-The remaining planned methods are `jyotish`, `zi_wei_dou_shu`, and
-`sanmeigaku`. Draw- or selection-based methods such as Tarot, I Ching, and Rune
+The remaining planned methods are `zi_wei_dou_shu` and `sanmeigaku`. Draw- or selection-based methods such as Tarot, I Ching, and Rune
 are outside this Daily Run target because the current research phase requires
 reproducible fixed inputs.
 
@@ -85,7 +85,7 @@ Example:
 ```powershell
 $env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
-npm run daily:compare:five
+npm run daily:compare:six
 ```
 
 ## Numerology profile
@@ -103,6 +103,24 @@ The v0.2 Numerology fixture uses one explicit Pythagorean profile:
 The fixture is hand-authored test data, not output from a deterministic
 generator. Other numerology schools and reduction conventions are not silently
 treated as equivalent.
+
+## Jyotish profile
+
+The v0.2 Jyotish fixture uses one explicit, limited research profile:
+
+- sidereal zodiac with Lahiri ayanamsha;
+- whole-sign houses;
+- the seven classical grahas plus mean Rahu/Ketu;
+- limited Parashari-style sign, house, dignity, and special-aspect interpretation;
+- a supplied synthetic Vimshottari mahadasha/antardasha state;
+- synthetic natal and target-day placements, not ephemeris output;
+- no divisional-chart, yoga, shadbala, panchanga, muhurta, rectification, or
+  remedial analysis;
+- no hour-level signal.
+
+The fixture is hand-authored test data, not output from a deterministic Jyotish
+calculation engine. Alternative ayanamshas, house conventions, node models, and
+school-specific synthesis rules are not silently treated as equivalent.
 
 ## Public and private boundary
 

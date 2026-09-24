@@ -99,6 +99,15 @@ function normalize(
 function five(scenarios: readonly Scenario[]) {
   assert.equal(scenarios.length, 5);
   return computeConsensus(
+    DAILY_METHOD_REGISTRY.slice(0, 5).map((method, index) =>
+      normalize(method.observation, scenarios[index]),
+    ),
+  );
+}
+
+function six(scenarios: readonly Scenario[]) {
+  assert.equal(scenarios.length, 6);
+  return computeConsensus(
     DAILY_METHOD_REGISTRY.map((method, index) =>
       normalize(method.observation, scenarios[index]),
     ),
@@ -152,13 +161,25 @@ test("registry preserves canonical order and rejects invalid selections", () => 
       "nine_star_ki",
       "sukuyo",
       "numerology",
+      "jyotish",
     ],
   );
   assert.deepEqual(
-    selectRegisteredMethods(["numerology", "western_astrology"]).map(
+    selectRegisteredMethods(["jyotish", "western_astrology"]).map(
       (method) => method.id,
     ),
-    ["numerology", "western_astrology"],
+    ["jyotish", "western_astrology"],
+  );
+  const originalFive = [
+    "western_astrology",
+    "four_pillars",
+    "nine_star_ki",
+    "sukuyo",
+    "numerology",
+  ];
+  assert.deepEqual(
+    selectRegisteredMethods(originalFive).map((method) => method.id),
+    originalFive,
   );
   assert.throws(
     () => selectRegisteredMethods([]),
@@ -225,7 +246,37 @@ test("five methods distinguish insufficient coverage from a strict majority", ()
   assert.equal(sparse.relevantMethodCount, 2);
 });
 
-test("consensus accepts arbitrary method counts beyond the five-method registry", () => {
+test("six methods require a strict 4/6 majority", () => {
+  const positive = { directions: { work: "positive" as const } };
+  const negative = { directions: { work: "negative" as const } };
+
+  const split = six([
+    positive,
+    positive,
+    positive,
+    negative,
+    negative,
+    negative,
+  ]).domains.work;
+  assert.equal(split.agreementState, "no_consensus");
+  assert.equal(split.consensusDirection, null);
+  assert.equal(split.majorityCount, 3);
+
+  const majority = six([
+    positive,
+    positive,
+    positive,
+    positive,
+    negative,
+    negative,
+  ]).domains.work;
+  assert.equal(majority.agreementState, "majority_agreement");
+  assert.equal(majority.consensusDirection, "positive");
+  assert.equal(majority.majorityCount, 4);
+  assert.deepEqual(majority.minorityMethods, ["numerology", "jyotish"]);
+});
+
+test("consensus accepts arbitrary method counts beyond the six-method registry", () => {
   const base = normalize(NUMEROLOGY_FICTIONAL_FIXTURE, {
     directions: { action: "positive" },
   });
@@ -241,7 +292,7 @@ test("consensus accepts arbitrary method counts beyond the five-method registry"
   assert.equal(consensus.domains.action.majorityCount, 8);
 });
 
-test("registry-driven builder creates a five-method Daily Run v0.2 artifact", () => {
+test("registry-driven builder creates a six-method Daily Run v0.2 artifact", () => {
   const observations = DAILY_METHOD_REGISTRY.map(
     (method) => method.observation,
   );
@@ -256,9 +307,11 @@ test("registry-driven builder creates a five-method Daily Run v0.2 artifact", ()
   });
 
   assert.equal(run.schemaVersion, "0.2");
+  assert.equal(run.consensus.status, "multi_method_comparison");
+  assert.equal(run.consensus.methodCount, 6);
   assert.equal(
     run.runId,
-    "daily-v0.2-5-method-fictional-2026-09-24T03-04-05-678Z",
+    "daily-v0.2-6-method-fictional-2026-09-24T03-04-05-678Z",
   );
   assert.equal(run.executionDate, "2026-09-24");
   assert.deepEqual(
