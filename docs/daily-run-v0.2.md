@@ -6,8 +6,8 @@ Contract version: `0.2`
 
 Daily Run v0.2 preserves the method-independent observation and Jev normalization
 model from v0.1 while removing the four-method consensus ceiling. It also makes
-method selection registry-driven. The registry currently contains seven fictional
-methods through `zi_wei_dou_shu`.
+method selection registry-driven. All eight planned fictional methods are now
+registered through `sanmeigaku`.
 
 The implementation sequence remains:
 
@@ -27,8 +27,9 @@ The canonical v0.2 registry order is:
 5. `numerology`
 6. `jyotish`
 7. `zi_wei_dou_shu`
+8. `sanmeigaku`
 
-The remaining planned method is `sanmeigaku`. Draw- or selection-based methods such as Tarot, I Ching, and Rune
+All eight planned Daily Run methods are registered. Draw- or selection-based methods such as Tarot, I Ching, and Rune
 are outside this Daily Run target because the current research phase requires
 reproducible fixed inputs.
 
@@ -86,7 +87,7 @@ Example:
 ```powershell
 $env:DAILY_RUN_OUTPUT_ROOT = 'D:\Ikuri\02-Lab\Data\jev-divination-lab\runs'
 $env:DAILY_RUN_EXECUTION_TIMEZONE = 'Asia/Tokyo'
-npm run daily:compare:seven
+npm run daily:compare:eight
 ```
 
 ## Numerology profile
@@ -141,6 +142,28 @@ The fixture does not perform lunar-calendar conversion, leap-month handling,
 birth-hour boundary selection, true-solar-time correction, or a school-specific
 star-placement calculation. Alternative palace, star, Four Transformation, and
 flowing-period conventions are not silently treated as equivalent.
+
+## Sanmeigaku profile
+
+The v0.2 Sanmeigaku fixture uses an explicit limited direct-state profile:
+
+- the same synthetic Jia-Zi, Ding-Mao, Geng-Shen, and Ji-Mao pillars used by
+  the Four Pillars / BaZi fixture;
+- the same synthetic annual, monthly, and target-day stem-branch inputs;
+- a partial Yin Chart layer that retains stem-branch and five-element structure;
+- a Yang Chart layer with five supplied Ten Major Star positions;
+- three Twelve Subordinate Star life-stage markers as structural context only;
+- no Tenchusatsu calculation or interpretation;
+- a supplied target-day overlay rather than a generated daily chart;
+- no intraday signal.
+
+The BaZi fixture interprets its shared base through Day Master, Ten Gods,
+useful-element, and clash concepts. Sanmeigaku instead uses the declared partial
+Yin Chart and Yang Chart star layers. They remain separate method observations,
+but they are not statistically independent: agreement between them must not be
+presented as independent corroboration. Daily Run v0.2 applies no correlation
+discount or method weighting, so this dependency remains an explicit consensus
+limitation.
 
 ## Public and private boundary
 

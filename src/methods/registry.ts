@@ -3,6 +3,7 @@ import { FOUR_PILLARS_FICTIONAL_FIXTURE } from "../fixtures/four-pillars-fiction
 import { JYOTISH_FICTIONAL_FIXTURE } from "../fixtures/jyotish-fictional.js";
 import { NINE_STAR_KI_FICTIONAL_FIXTURE } from "../fixtures/nine-star-ki-fictional.js";
 import { NUMEROLOGY_FICTIONAL_FIXTURE } from "../fixtures/numerology-fictional.js";
+import { SANMEIGAKU_FICTIONAL_FIXTURE } from "../fixtures/sanmeigaku-fictional.js";
 import { SUKUYO_FICTIONAL_FIXTURE } from "../fixtures/sukuyo-fictional.js";
 import { WESTERN_ASTROLOGY_FICTIONAL_FIXTURE } from "../fixtures/western-astrology-fictional.js";
 import { ZI_WEI_DOU_SHU_FICTIONAL_FIXTURE } from "../fixtures/zi-wei-dou-shu-fictional.js";
@@ -48,6 +49,11 @@ export const DAILY_METHOD_REGISTRY: readonly RegisteredMethod[] = [
     id: "zi_wei_dou_shu",
     displayName: "Zi Wei Dou Shu / 紫微斗数",
     observation: ZI_WEI_DOU_SHU_FICTIONAL_FIXTURE,
+  },
+  {
+    id: "sanmeigaku",
+    displayName: "Sanmeigaku / 算命学",
+    observation: SANMEIGAKU_FICTIONAL_FIXTURE,
   },
 ] as const;
 
